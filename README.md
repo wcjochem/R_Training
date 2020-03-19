@@ -1,5 +1,6 @@
 # R Training
 Lessons and training materials for R/RStudio workshop hosted by the University of Southampton
+
 Spring 2020
 
 This workshop is made up several sessions:
