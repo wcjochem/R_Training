@@ -148,6 +148,7 @@ charvector[charvector %in% c("pear", "grape", "orange") ]
 datavector + 1
 # Using the sum() function adds all items together to return a single value
 sum(datavector)
+mean(datavector)  # we will see more of these functions in the next parts.
 # Other common functions include: mean(), min(), max(), sd() [standard deviation], var()
 
 # END OF PART 1!
