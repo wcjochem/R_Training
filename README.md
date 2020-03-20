@@ -3,6 +3,8 @@ Lessons and training materials for R/RStudio workshop hosted by the University o
 
 *Spring 2020*
 
+Please check the Getting Started guide in the Word document.
+
 This workshop is made up several sessions:
 
 **1. Introduction to R Statistical Software** - Learn the basics of working with R - an open source programming language for statistics and computing. This introductory session will help postgrad researchers get up and running with R and RStudio.
