@@ -15,7 +15,7 @@ library(lubridate)
 # Loading files
 # How do you find the path to the data? You can find the path in the Files tab.
 # All R scripts also have a "working directory"
-getwd()  # This is the current working directory path.
+getwd()  # This is the current working directory path. setwd()
 # Rather than setting a working directory, I prefer store the paths to my folders as a character.
 input_path <- "C:/Users/Admin/Documents/Github/R_Training"  # notice the direction of slashes
 # This path will be different on your computer. Change it to the location where
@@ -23,7 +23,7 @@ input_path <- "C:/Users/Admin/Documents/Github/R_Training"  # notice the directi
 
 # The data we will use is a comma-separated data file with multiple columns.
 # We need a new function to read it.
-surveydf <- read.csv(paste(input_path, "/data/portal/combined.csv", sep="/"))
+surveydf <- read.csv(paste(input_path, "data/portal/combined.csv", sep="/"))
 # This also demonstrates another new function paste(). Paste combines two or more strings.
 # For example...
 paste(input_path, "/NEW STRING/", sep=" ")  # combine these strings with a space as separator
@@ -70,11 +70,12 @@ new_factor
 ## Subsetting the dataframes ##
 
 # Similar to what we saw previously with vectors, we can index and subset rows and columns.
-surveydf[, 2]  # get the second column but return all the rows
+surveydf[ , 2]  # get the second column but return all the rows
 surveydf[, 3:4]  # get the third to the fourth columns
 surveydf[,"species"]  # access a column by one name
 surveydf[, c("genus", "species")]  # or multiple names as a vector using c()
 # We don't have to use brackets. R allows access to columns with the '$' marker
+surveydf$year
 surveydf$species  # returns the species column as a vector
 # Because we return a vector we can perform operations on it
 surveydf$year[1:10]  # extract part of the vector
@@ -179,12 +180,15 @@ rodents <- rodents[, setdiff(names(rodents), c("month","day","year"))]
 
 # Clean up our factor for missing labels in the levels
 levels(rodents$sex)  # the first labels is blank. That's not helpful for analyses
+levels(rodents$sex) <- c("Unk","Female",)
+
 levels(rodents$sex)[1] <- "Unknown"  # we can adjust only the first level
 levels(rodents$sex)
 
 # Remove all missing cases
 rodents <- rodents[complete.cases(rodents), ]
   head(rodents)
+  dim(rodents)
   
 
 ## Exploratory data analyses ##
@@ -211,7 +215,8 @@ table(year(rodents$date))  # we use the year() from lubridate to extract part of
 # Get group-level summaries
 by(rodents$weight, rodents$sex, FUN=mean)  # Return the average weight by sex class
 # Test the differences in mean foot length between female and male rodents
-t.test(rodents[rodents$sex=="F", "hindfoot_length"], rodents[rodents$sex=="M", "hindfoot_length"])
+t.test(rodents[rodents$sex=="Female", "hindfoot_length"], 
+       rodents[rodents$sex=="Male", "hindfoot_length"])
 
 # Some simple exploratory plots of the data. This will use the functions available in "base" R.
 # In later sessions I hope we can focus on data visualisation. There are many more plotting tools.
@@ -233,7 +238,8 @@ boxplot(weight ~ sex + species, data=rodents)  # This is an ugly plot, but it sh
 # 3. Histograms to show the frequency of a variable
 hist(rodents$hindfoot_length)
 hist(rodents$hindfoot_length, breaks=40)  # with 40 categories
-hist(rodents$hindfoot_length, breaks=c(0,5,10,15,20,30,50,55,60,80))  # Specific breakpoints
+hist(rodents$hindfoot_length, 
+     breaks=c(0,5,10,15,20,30,50,55,60,80))  # Specific breakpoints
 
 
 ## Data export ##
