@@ -7,7 +7,7 @@
 #
 
 # R packages for reading/writing spatial data
-library(sf)
+library(sf)  # rgdal
 library(raster)
 
 library(ape)  # easy to use Moran's I test
@@ -32,6 +32,7 @@ dat <- readRDS(paste0(input_path, "/data/sim/sites.rds"))
   head(dat)
   
 datSpatial <- st_as_sf(dat, coords=c("x","y"))
+  class(datSpatial)
   plot(datSpatial, axes=T)
 # If I had a projection or coordinate reference system, 
 # I could add it by using another function: st_set_crs(datSpatial) <- st_crs(...)
@@ -41,13 +42,15 @@ rm(datSpatial, dat)  # remove two objects from R's memory
 
 # Load raster (gridded) data
 var1 <- raster(paste0(input_path, "/data/sim/var1.tif")) # geotiff format
-  var1  
+  var1 
+  plot(var1)
   image(var1)  # alternatively, use plot(var1)
   
 var2 <- raster(paste0(input_path, "/data/sim/var2.tif"))
   var2  
+  
   image(var2)
-  plot(sites,add=T)
+  plot(sites, add=T)
 
 # Extract "covariates" at each site point location
 sites$var1 <- extract(var1, sites)
@@ -64,6 +67,7 @@ sites$var2 <- extract(var2, sites)
 # fit some simple models using OLS.
 
 m1 <- lm(log1p(counts) ~ var1 + I(var1^2), data=sites) # Note the use of I(...)
+  class(m1)
   summary(m1) # table of regression coefficients
   
 # Inspect some features of the residuals... showing some structure

@@ -44,6 +44,7 @@ names(result)
 # x - matrix of new coordinates - each observation to the principal components
 
 # You can access any of these results
+result$sdev
 result$center
 
 # view the summary of components  

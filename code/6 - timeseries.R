@@ -37,6 +37,7 @@ class(Area_loss_test)
 # Fit a simple exponential smoothing model
   ?ets
 fit1 <- ets(Area_loss_train, model = "ANN")  #
+  class(fit1)
 # NOTE: the model setting "additive errors (A), no assumed trend (N) and no seasonality (N)
   plot(fit1)
   summary(fit1)
@@ -69,7 +70,7 @@ fit3$method  # This has multiplicative errors (M), but no overall trend (N) or s
 
 fit3_forecast <- forecast(fit3, h = 3)
   plot(fit3_forecast)
-  
+  points(Year[23:25], Area[23:25], lty = 1, col = "black", lwd = 4, pch = 0)
 
 ## Example 2 - Lake levels in Lake Huron
 data("LakeHuron")
@@ -108,6 +109,8 @@ f.ar1 <- forecast(ar1)
 
 # model 2 - setting your own parameters
 ar2 <- Arima(LakeHuron, order=c(1,0,0))
+  summary(ar2)
+acf(resid(ar2))
 
 f.ar2 <- forecast(ar2)
   plot(f.ar2)
