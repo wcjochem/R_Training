@@ -69,3 +69,46 @@ fit3$method  # This has multiplicative errors (M), but no overall trend (N) or s
 
 fit3_forecast <- forecast(fit3, h = 3)
   plot(fit3_forecast)
+  
+
+## Example 2 - Lake levels in Lake Huron
+data("LakeHuron")
+  class(LakeHuron)
+  LakeHuron
+  
+  plot(LakeHuron)
+
+# Correlation structure, compared with its own time lags
+Acf(LakeHuron)  # decreases with longer time lags
+# If there were multiple peaks, this might imply seasonal variation
+# the 'q' component for ARIMA
+
+# Partial autocorrelation function
+# controls for the lags, like looking for correlation in the residuals
+Pacf(LakeHuron)
+# Which observations are most informative on the recent observation?
+# We can use these functions to build towards an ARIMA model
+# the 'p' component for ARIMA
+
+# Differencing
+dLake <- diff(LakeHuron)
+  plot(dLake)
+Acf(dLake)  
+Pacf(dLake)
+
+# ARIMA tests
+# model 1
+ar1 <- auto.arima(LakeHuron)
+  summary(ar1) # view the model summary
+# check the residuals
+acf(resid(ar1))
+
+f.ar1 <- forecast(ar1) 
+  plot(f.ar1)  
+
+# model 2 - setting your own parameters
+ar2 <- Arima(LakeHuron, order=c(1,0,0))
+
+f.ar2 <- forecast(ar2)
+  plot(f.ar2)
+  
